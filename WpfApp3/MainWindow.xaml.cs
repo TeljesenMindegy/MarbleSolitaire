@@ -20,8 +20,9 @@ namespace WpfApp3
     /// </summary>
     public partial class MainWindow : Window
     {
-        static List<CheckBox> Pegs = new List<CheckBox>();
+        static List<CheckBox> pegs = new List<CheckBox>();
         static List<string> possibleMove = new List<string>();
+        static bool canMove = true;
 
         static int secondStep = 0;
 
@@ -30,7 +31,58 @@ namespace WpfApp3
             return FindName("Hole_" + column + "_" + row) as CheckBox;
         }
 
-        void PegsLeft()
+        bool isPossibleMove()
+        {
+            foreach (CheckBox peg in pegs)
+            {
+                int row = Grid.GetRow(peg);
+                int column = Grid.GetColumn(peg);
+
+                if ((GetCheckBox(column + 1, row) != null) && GetCheckBox(column + 2, row) != null)
+                {
+                    if ((bool)GetCheckBox(column + 1, row).IsChecked)
+                    {
+                        if ((bool)!(GetCheckBox(column + 2, row).IsChecked))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                if ((GetCheckBox(column - 1, row) != null) && GetCheckBox(column - 2, row) != null)
+                {
+                    if ((bool)GetCheckBox(column - 1, row).IsChecked)
+                    {
+                        if ((bool)!(GetCheckBox(column - 2, row).IsChecked))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                if ((GetCheckBox(column, row + 1) != null) && GetCheckBox(column, row + 2) != null)
+                {
+                    if ((bool)GetCheckBox(column, row + 1).IsChecked)
+                    {
+                        if ((bool)!(GetCheckBox(column, row + 2).IsChecked))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                if ((GetCheckBox(column, row - 1) != null) && GetCheckBox(column, row - 2) != null)
+                {
+                    if ((bool)GetCheckBox(column, row - 1).IsChecked)
+                    {
+                        if ((bool)!(GetCheckBox(column, row - 2).IsChecked))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        void GetPegPositions()
         {
             for (int i = 0; i < 7; i++)
             {
@@ -40,18 +92,14 @@ namespace WpfApp3
                     {
                         if ((bool)GetCheckBox(i, j).IsChecked)
                         {
-                            Pegs.Add(GetCheckBox(i, j));
+                            pegs.Add(GetCheckBox(i, j));
+                            
                         }
                     }
                 }
             }
         }
-
-        void PossibleMoves()
-        {
-
-        }
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -76,15 +124,15 @@ namespace WpfApp3
                     }
                 }
             }
-            (FindName("Hole_3_3") as CheckBox).IsChecked = false;
+            GetCheckBox(3, 3).IsChecked = false;
         }
 
         private void NewHole_Click(object sender, RoutedEventArgs e)
         {
-            PegsLeft();
+
             int row = (Grid.GetRow(sender as CheckBox));
             int column = (Grid.GetColumn(sender as CheckBox));
-            bool asdf = (bool)GetCheckBox(column, row).IsChecked;
+
             if ((bool)GetCheckBox(column, row).IsChecked)
             {
                 GetCheckBox(column, row).IsChecked = false;
@@ -94,6 +142,7 @@ namespace WpfApp3
                 (sender as CheckBox).IsChecked = true;
             }
 
+            
             foreach (string move in possibleMove)
             {
                 string[] moveParams = move.Split('|');
@@ -142,15 +191,6 @@ namespace WpfApp3
                 }
             }
 
-            //bool test = (FindName("Hole_" + column + "_" + (row + 2)) as CheckBox) == null;
-            //string asdf = (string)TryFindResource(("Hole_" + (column + 1) + "_" + row));
-            //TextBlock semmi = new TextBlock();
-            //Grid.SetRow(semmi, 0);
-            //Grid.SetColumn(semmi, 0);
-            //gridMain.Children.Add(semmi);
-
-            //if (column + 1 >= 0 && column + 1 <= 7 && column + 2 >= 0 && column + 2 <= 7)
-            //if ((TryFindResource(FindName("Hole_" + (column + 1) + "_" + row) as CheckBox) != null) && TryFindResource(FindName("Hole_" + (column + 2) + "_" + row) as CheckBox) != null)
             if (((FindName("Hole_" + (column + 1) + "_" + row) as CheckBox) != null) && (FindName("Hole_" + (column + 2) + "_" + row) as CheckBox) != null)
             {
                 if ((bool)(sender as CheckBox).IsChecked)
@@ -159,9 +199,6 @@ namespace WpfApp3
                     {
                         if ((bool)!((FindName("Hole_" + (column + 2) + "_" + row) as CheckBox).IsChecked))
                         {
-                            //(FindName("Hole_" + column + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + (column + 1) + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + (column + 2) + "_" + row) as CheckBox).IsChecked = true;
                             possibleMove.Add("Hole_" + (column + 2) + "_" + row + "|C+1");
                         }
                         else
@@ -172,8 +209,6 @@ namespace WpfApp3
                 }
             }
 
-            //if ((FindName("Hole_" + row + "_" + (column - 1)) as CheckBox).HasContent && (FindName("Hole_" + row + "_" + (column -2)) as CheckBox).HasContent)
-            //if (column - 1 >= 0 && column - 1 <= 7 && column - 2 >= 0 && column - 2 <= 7)
             if (((FindName("Hole_" + (column - 1) + "_" + row) as CheckBox) != null) && (FindName("Hole_" + (column - 2) + "_" + row) as CheckBox) != null)
             {
                 if ((bool)(sender as CheckBox).IsChecked)
@@ -182,9 +217,6 @@ namespace WpfApp3
                     {
                         if ((bool)!((FindName("Hole_" + (column - 2) + "_" + row) as CheckBox).IsChecked))
                         {
-                            //(FindName("Hole_" + column + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + (column - 1) + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + (column - 2) + "_" + row) as CheckBox).IsChecked = true;
                             possibleMove.Add("Hole_" + (column - 2) + "_" + row + "|C-1");
                         }
                         else
@@ -195,8 +227,6 @@ namespace WpfApp3
                 }
             }
 
-            //if ((FindName("Hole_" + (row + 1) + "_" + column) as CheckBox).HasContent && (FindName("Hole_" + (row + 2) + "_" + column) as CheckBox).HasContent)
-            //if (row + 1 >= 0 && row + 1 <= 7 && row + 2 >= 0 && row + 2 <= 7)
             if (((FindName("Hole_" + column + "_" + (row + 1)) as CheckBox) != null) && (FindName("Hole_" + column + "_" + (row + 2)) as CheckBox) != null)
             {
                 if ((bool)(sender as CheckBox).IsChecked)
@@ -205,9 +235,6 @@ namespace WpfApp3
                     {
                         if (!(bool)((FindName("Hole_" + column + "_" + (row + 2)) as CheckBox).IsChecked))
                         {
-                            //(FindName("Hole_" + column + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + column + "_" + (row + 1)) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + column + "_" + (row + 2)) as CheckBox).IsChecked = true;
                             possibleMove.Add("Hole_" + column + "_" + (row + 2) + "|R+1");
                         }
                         else
@@ -219,8 +246,6 @@ namespace WpfApp3
 
             }
 
-            //    if ((FindName("Hole_" + (row - 1) + "_" + column) as CheckBox).HasContent && (FindName("Hole_" + (row - 2) + "_" + column) as CheckBox).HasContent)
-            //if (row - 1 >= 0 && row - 1 <= 7 && row - 2 >= 0 && row - 2 <= 7)
             if (((FindName("Hole_" + column + "_" + (row - 1)) as CheckBox) != null) && (FindName("Hole_" + column + "_" + (row - 2)) as CheckBox) != null)
             {
                 if ((bool)(sender as CheckBox).IsChecked)
@@ -229,9 +254,6 @@ namespace WpfApp3
                     {
                         if ((bool)!((FindName("Hole_" + column + "_" + (row - 2)) as CheckBox).IsChecked))
                         {
-                            //(FindName("Hole_" + column + "_" + row) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + column + "_" + (row - 1)) as CheckBox).IsChecked = false;
-                            //(FindName("Hole_" + column + "_" + (row - 2)) as CheckBox).IsChecked = true;
                             possibleMove.Add("Hole_" + column + "_" + (row - 2) + "|R-1");
                         }
                         else
@@ -258,6 +280,23 @@ namespace WpfApp3
                 }
                 possibleMove.Clear();
                 secondStep = 0;
+            }
+
+            pegs.Clear();
+            GetPegPositions();
+            canMove = !isPossibleMove();
+
+            if (!canMove)
+            {
+                pegs.Remove(GetCheckBox(3, 3));
+                if (pegs.Count == 0)
+                {
+                    MessageBox.Show("Nyertél!");
+                }
+                else
+                {
+                    MessageBox.Show("Vesztettél!");
+                }
             }
         }
     }
