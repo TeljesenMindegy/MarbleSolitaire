@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp3
+namespace PegSolitaire
 {
-    public class Peg
+    enum Direction
     {
-        public bool filled { get; set; }
-
+        RowPlus,
+        RowMinus,
+        ColumnPlus,
+        ColumnMinus
     }
 }
