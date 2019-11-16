@@ -13,21 +13,12 @@
                                 Margin="15,0,0,0"
                                 StrokeThickness="1"
                                 Stroke="#60000000"
-                                StrokeDashArray="1 2"/>         
+                                StrokeDashArray="1 2"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
-            <GradientBrush.GradientStops>
-                <GradientStopCollection>
-                    <GradientStop Color="#FFF" Offset="0.0"/>
-                    <GradientStop Color="#CCC" Offset="1.0"/>
-                </GradientStopCollection>
-            </GradientBrush.GradientStops>
-        </LinearGradientBrush>
         
         <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -40,7 +31,7 @@
         
         <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
-        <LinearGradientBrush x:Key="HoleBrush" StartPoint="0,0" EndPoint="0,1">
+        <LinearGradientBrush x:Key="HoverBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
                     <GradientStop Color="#FFDA8181" Offset="0.75"/>
@@ -114,7 +105,7 @@
                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource PegBrush}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource HoleBrush}" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource HoverBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />

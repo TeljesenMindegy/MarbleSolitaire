@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 namespace PegSolitaire
 {
     /// <summary>
@@ -23,7 +11,6 @@ namespace PegSolitaire
         static List<CheckBox> pegs = new List<CheckBox>();
         static List<Move> possibleMove = new List<Move>();
         static bool canMove = true;
-        private double _dynamicHeight;
 
         CheckBox GetCheckBox(int column, int row)
         {
@@ -229,14 +216,9 @@ namespace PegSolitaire
             }
         }
 
-        public MainWindow()
+        void Start()
         {
-
-            InitializeComponent();
-
-            Binding binding = new Binding();
-            binding.Source = gridMain.ActualWidth / 7;
-
+            gridMain.Children.Clear();
             CheckBox newHole;
             for (int i = 0; i < 7; i++)
             {
@@ -249,6 +231,10 @@ namespace PegSolitaire
                     {
                         newHole = new CheckBox();
                         newHole.IsChecked = true;
+                        if (GetCheckBox(i, j) != null)
+                        {
+                            UnregisterName("Hole_" + i.ToString() + "_" + j.ToString());
+                        }
                         RegisterName("Hole_" + i.ToString() + "_" + j.ToString(), newHole);
                         Grid.SetRow(newHole, j);
                         Grid.SetColumn(newHole, i);
@@ -265,8 +251,10 @@ namespace PegSolitaire
             GetCheckBox(3, 3).Opacity = 0.25;
         }
 
-
-        public double DynamicHeight { get => _dynamicHeight; set => _dynamicHeight = gridMain.ActualHeight / 7.0; }
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
         private void NewHole_Click(object sender, RoutedEventArgs e)
         {
@@ -311,17 +299,37 @@ namespace PegSolitaire
                         pegs.Remove(GetCheckBox(3, 3));
                         if (pegs.Count == 0)
                         {
-                            MessageBox.Show("Nyertél!");
+                            Win.Visibility = Visibility.Visible;
                         }
                         else
                         {
-                            MessageBox.Show("Vesztettél!");
+                            GameOver.Visibility = Visibility.Visible;
                         }
                     }
                     return;
                 }
             }
             GetPossibleMove(sender as CheckBox);
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            Start();
+            Menu.Visibility = Visibility.Hidden;
+            Game.Visibility = Visibility.Visible;
+        }
+
+        private void Menu_Click(object sender, RoutedEventArgs e)
+        {
+            Game.Visibility = Visibility.Hidden;
+            GameOver.Visibility = Visibility.Hidden;
+            Win.Visibility = Visibility.Hidden;
+            Menu.Visibility = Visibility.Visible;
         }
     }
 }

@@ -6,27 +6,70 @@
         xmlns:local="clr-namespace:PegSolitaire"
         mc:Ignorable="d"
         Background="#FF181D24"
-        MinWidth="600" MinHeight="600"
-        Title="MainWindow" SizeToContent="WidthAndHeight">
-    
-    <Grid x:Name="gridMain"    VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20" MinHeight="500" Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        MinWidth="700" MinHeight="700"
+        Width="700" Height="700"
+        Title="Marble solitaire" ResizeMode="NoResize">
+    <Grid>
+        <Grid x:Name="Menu" Visibility="Visible">
+            <StackPanel>
+                <Label Content="Marble solitaire" VerticalAlignment="Top" HorizontalAlignment="Center"  FontSize="60" Foreground="#FFC03030" Margin="0, 65"/>
+                <Image Source="/Images/pegSolitaire.png" MaxHeight="250" ></Image>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <Button x:Name="btnStart" Width="130" Height="50" Content="Start" FontSize="25" Margin="5" Foreground="#FFC03030" Background="#FF5588B7" BorderBrush="{x:Null}" Click="Start_Click"/>
+                    <Button x:Name="btnExit" Width="130" Height="50" Content="Exit" FontSize="25" Margin="5" Foreground="#FFC03030" Background="#FF5588B7" BorderBrush="{x:Null}" Click="Exit_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="Game" Visibility="Hidden">
+            <StackPanel>
+                <Button Width="200" Height="50" Content="Main Menu" FontSize="25"  Foreground="#FFC03030" Background="#FF5588B7" BorderBrush="{x:Null}" Click="Menu_Click"/>
+                <Grid x:Name="gridMain" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                      Margin="20" MinHeight="500" 
+                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
+                      Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="GameOver" Width="440" Height="440" Background="#FFC03030" Visibility="Hidden">
+            <Grid  Width="420" Height="420" Background="#FF181D24" >
+                <Label Content="Game Over" VerticalAlignment="Top" HorizontalAlignment="Center"  FontSize="60" Foreground="#FFC03030" Margin="0, 65"/>
+                <StackPanel HorizontalAlignment="Center" Margin="0, 200, 0, 0">
+                    <Button Width="200" Height="50" Content="Main Menu" FontSize="25" Margin="5" Foreground="#FFC03030" Background="#FF5588B7" BorderBrush="{x:Null}" Click="Menu_Click"/>
+                    <Button Width="200" Height="50" Content="Exit to Desktop" FontSize="25" Margin="5" Click="Exit_Click" Foreground="#FFC03030" Background="#FF5588B7" BorderBrush="{x:Null}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="Win" Width="440" Height="440" Background="#FF385D0D" Visibility="Hidden"  >
+            <Grid  Width="420" Height="420" Background="#FF181D24" >
+                <StackPanel>
+                    <Label Content="Congratulation" VerticalAlignment="Top" HorizontalAlignment="Center"  FontSize="60" Margin="0" Foreground="#FF385D0D"/>
+                    <Label Content="You won!" VerticalAlignment="Top" HorizontalAlignment="Center"  FontSize="60" Margin="0" Foreground="#FF385D0D"/>
+                <StackPanel HorizontalAlignment="Center" Margin="0,20">
+                        <Button Width="200" Height="50" Content="Main Menu" FontSize="25" Margin="5" Foreground="#FF385D0D" Background="#FF5588B7" BorderBrush="{x:Null}" Click="Menu_Click"/>
+                        <Button Width="200" Height="50" Content="Exit to Desktop" FontSize="25" Margin="5" Click="Exit_Click" Foreground="#FF385D0D" Background="#FF5588B7" BorderBrush="{x:Null}"/>
+                </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
