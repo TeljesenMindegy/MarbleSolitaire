@@ -23,6 +23,7 @@ namespace PegSolitaire
         static List<CheckBox> pegs = new List<CheckBox>();
         static List<Move> possibleMove = new List<Move>();
         static bool canMove = true;
+        private double _dynamicHeight;
 
         CheckBox GetCheckBox(int column, int row)
         {
@@ -165,9 +166,10 @@ namespace PegSolitaire
                     }
                 }
             }
+
             foreach (Move move in possibleMove)
             {
-                move.Peg.Background = Brushes.Red;
+                move.Peg.Opacity = 1;
             }
         }
 
@@ -222,13 +224,19 @@ namespace PegSolitaire
         {
             foreach (CheckBox checkBox in gridMain.Children)
             {
-                checkBox.Background = Brushes.White;
+                if (checkBox.IsChecked == false)
+                checkBox.Opacity = 0.25;
             }
         }
 
         public MainWindow()
         {
+
             InitializeComponent();
+
+            Binding binding = new Binding();
+            binding.Source = gridMain.ActualWidth / 7;
+
             CheckBox newHole;
             for (int i = 0; i < 7; i++)
             {
@@ -245,13 +253,20 @@ namespace PegSolitaire
                         Grid.SetRow(newHole, j);
                         Grid.SetColumn(newHole, i);
                         newHole.Click += NewHole_Click;
+                        newHole.VerticalAlignment = VerticalAlignment.Center;
+                        newHole.HorizontalAlignment = HorizontalAlignment.Center;
 
                         gridMain.Children.Add(newHole);
+
                     }
                 }
             }
             GetCheckBox(3, 3).IsChecked = false;
+            GetCheckBox(3, 3).Opacity = 0.25;
         }
+
+
+        public double DynamicHeight { get => _dynamicHeight; set => _dynamicHeight = gridMain.ActualHeight / 7.0; }
 
         private void NewHole_Click(object sender, RoutedEventArgs e)
         {
@@ -281,7 +296,7 @@ namespace PegSolitaire
                 possibleMove.Clear();
                 clearPossible();
             }
-            
+
             foreach (Move move in possibleMove)
             {
                 if (move.Peg.Name == "Hole_" + column + "_" + row)

@@ -5,25 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PegSolitaire"
         mc:Ignorable="d"
-        Title="MainWindow">
-    <Grid x:Name="gridMain" Width="400" Height="400" Background="Blue">
+        Background="#FF181D24"
+        MinWidth="600" MinHeight="600"
+        Title="MainWindow" SizeToContent="WidthAndHeight">
+    
+    <Grid x:Name="gridMain"    VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20" MinHeight="500" Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
     </Grid>
 </Window>
